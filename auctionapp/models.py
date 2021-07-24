@@ -64,3 +64,66 @@ class User(models.Model):
     password = models.CharField(max_length=255)
 
     objects = UserManager()
+
+class ItemManager(models.Manager):
+    def item_validator(self, postData):
+        errors = {}
+
+        if len(postData['item_brand']) < 1:
+            errors['item_brand'] = "The brand name cannot be empty."
+        if len(postData['product_name']) < 1:
+            errors['product_name'] = "The product name cannot be empty."
+        if len(postData['item_price']) < 1:
+            errors['item_price'] = "The price cannot be empty."
+        if len(postData['item_description']) < 1:
+            errors['item_description'] = "The description name cannot be empty."
+        if len(postData['contact_info']) < 1:
+            errors['contact_info'] = "The contact information cannot be empty."
+
+        # if postData['price'] == 0:
+        #     errors['price'] = "The price cannot be $0."
+
+        if len(postData['item_brand']) < 2:
+            errors['item_brand'] = "The brand name must be at least 2 characters long."
+        if len(postData['product_name']) < 8:
+            errors['product_name'] = "Product name must be at least 8 characters long."
+        if len(postData['item_description']) >50:
+            errors['item_description'] = "The description must be less than 50 characters long."
+
+        return errors
+    def updateme(self, postData):
+        errors = {}
+        if len(postData['item_brand']) < 1:
+            errors['item_brand'] = "The brand name cannot be empty."
+        if len(postData['product_name']) < 1:
+            errors['product_name'] = "The product name cannot be empty."
+        if len(postData['item_price']) < 1:
+            errors['item_price'] = "The price cannot be empty."
+        if len(postData['item_description']) < 1:
+            errors['item_description'] = "The description name cannot be empty."
+        if len(postData['contact_info']) < 1:
+            errors['contact_info'] = "The contact information cannot be empty."
+
+        # if postData['price'] == 0:
+        #     errors['price'] = "The price cannot be $0."
+
+        if len(postData['item_brand']) < 2:
+            errors['item_brand'] = "The brand name must be at least 2 characters long."
+        if len(postData['product_name']) < 8:
+            errors['product_name'] = "Product name must be at least 8 characters long."
+        if len(postData['item_description']) >50:
+            errors['item_description'] = "The description must be less than 50 characters long."
+
+
+class Item(models.Model):
+    product_name = models.CharField(max_length=45)
+    item_description = models.CharField(max_length=50)
+    item_price = models.IntegerField(max_length=8)
+    contact_info = models.CharField(max_length=255)
+    item_brand = models.CharField(max_length=45)
+    owner = models.ForeignKey(User, related_name="has_created_item", on_delete=models.CASCADE)
+    sold = models.BooleanField(default=False)
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+
+    objects = ItemManager()
