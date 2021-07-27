@@ -1,67 +1,49 @@
 from django.db import models
 import re
-import bcrypt
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
 # LOGIN PORTION
 class UserManager(models.Manager):
-    def validate(self, post_data):
+    def registration_validator(self, postData):
         errors = {}
-        if len(post_data['first_name']) < 2:
-            errors['first_name'] = 'First Name must be at least 2 characters'
+        if len(postData['first_name']) < 1:
+            errors['first_name'] = "First name is required"
 
-        if len(post_data['last_name']) < 2:
-            errors['last_name'] = 'Last Name must be at least 2 characters'
+        if len(postData['last_name']) < 1:
+            errors['last_name'] = "Last name is required"
 
-        if not EMAIL_REGEX.match(post_data['email']):
-            errors['email'] = 'Invalid Email Address'
-        
-        email_check = self.filter(email=post_data['email'])
-        if email_check:
-            errors['email'] = "Email already in use"
+        if not EMAIL_REGEX.match(postData['email']):
+            errors['email'] = "Email does not match format"
 
-        if len(post_data['password']) < 8:
-            errors['password'] = 'Password must be at least 8 characters'
+        if len(postData['password']) < 4:
+            errors['password'] = "Password must be at least 4 characters long"
+
+        if postData['password'] != postData['confirm_password']:
+            errors['mismatch'] = "Both entered passwords do not match"
+
+        existing_users = User.objects.filter(email=postData['email'])
+        if len(existing_users) != 0:
+            errors['existing'] = "That Email is already registered"
+
+        return errors
+
         
-        if post_data['password'] != post_data['confirm']:
-            errors['password'] = 'Passwords do not match'
-        
+    def login_validator(self, postData):
+        errors = {}
+        if len(postData['email']) < 1:
+            errors['email'] = "Email is a required field"
+        if len(postData['password']) < 1: 
+            errors['password'] = "Enter password to login"
         return errors
     
-    def authenticate(self, email, password):
-        users = self.filter(email=email)
-        if not users:
-            return False
-
-        user = users[0]
-        return bcrypt.checkpw(password.encode(), user.password.encode())
-
-    def register(self, post_data):
-        pw = bcrypt.hashpw(post_data['password'].encode(), bcrypt.gensalt()).decode()
-        return self.create(
-            first_name = post_data['first_name'],
-            last_name = post_data['last_name'],
-            email = post_data['email'],
-            password = pw,
-        )
-    def updateme(self, post_data):
-        errors = {}
-        if len(post_data['first_name']) < 2:
-            errors['first_name'] = 'First Name must be at least 2 characters'
-
-        if len(post_data['last_name']) < 2:
-            errors['last_name'] = 'Last Name must be at least 2 characters'
-
-        if not EMAIL_REGEX.match(post_data['email']):
-            errors['email'] = 'Invalid Email Address'
-        return errors
-
-
+    
 class User(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     objects = UserManager()
 

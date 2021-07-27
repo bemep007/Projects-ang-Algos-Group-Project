@@ -1,0 +1,193 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+html{
+    font-size: 10px;
+}
+
+body{
+    background-color: #000;
+}
+
+.slideshow{
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.slideshow-item{
+    width: inherit;
+    height: inherit;
+    position: absolute;
+    opacity: 0;
+    animation: cycleimages 31s infinite;
+}
+
+.slideshow-item img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: zoom 25s infinite;
+}
+
+.slideshow-item:nth-child(1),
+.slideshow-item:nth-child(1) img{
+    animation-delay: 0s;
+}
+
+.slideshow-item:nth-child(2),
+.slideshow-item:nth-child(2) img{
+    animation-delay: 8s;
+}
+
+.slideshow-item:nth-child(3),
+.slideshow-item:nth-child(3) img{
+    animation-delay: 16s;
+}
+
+.login {
+    font-size: 1rem;
+    position: absolute;
+    width: 20vw;
+    height: fit-content;
+    top: 30%;
+    right: 0;
+    margin-right: 5%;
+    background-color: rgba(233, 227, 227, 0.95);
+    padding: 3.5rem 3rem;
+    color: rgb(0, 0, 0);
+    border-radius: 5px;
+}
+
+.login h1 {
+    color: #222120;
+    font-weight: 600;
+    font-size: 2.5em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    border-bottom: 4px solid #e2b830;
+    display: inline-block;
+    letter-spacing: 1.5px;
+}
+
+.inputBx {
+    margin-bottom: 20px;
+}
+.login .inputBx span {
+    font-size: 2em;
+    margin-bottom: 5px;
+    display: inline-block;
+    color: #222120;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.login .inputBx input {
+    width: 100%;
+    padding: 10px 20px;
+    outline: none;
+    font-weight: 400;
+    border: 1px solid #222120;
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: #222120;
+    border-radius: 5px;
+}
+
+.login .inputBx input[type="submit"]{
+    background: #222120;
+    color: white;
+    outline: none;
+    border: none;
+    font-weight: 520;
+    cursor: pointer;
+}
+
+.login .inputBx input[type="submit"]:hover{
+    background: #e2b830;
+    color: #222120;
+}
+
+.login .inputBx p {
+    color: #222120;
+    font-size: 1.5em;
+}
+
+.login .inputBx p a {
+    color: #e2b830;
+}
+
+.title {
+    position: absolute;
+    width: fit-content;
+    top: 2%;
+    left: 0;
+    margin-right: 5%;
+    padding: 2rem 2rem;
+    color: white;
+    background-color: rgba(0,0,0,.95);
+}
+
+.title h1 {
+    width: 40vw;
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 8rem;
+    letter-spacing: 2px;
+    font-weight: 10;
+    text-transform: uppercase;
+}
+
+.title span {
+    font-weight: 900;
+    color: #e2b830;
+    font-family: 'Lato';
+    font-size: 8rem;
+    text-transform: uppercase;
+}
+
+.slideshow-item-text{
+    max-width: 50%;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    background-color: rgba(0,0,0,.8);
+    padding: 10rem 5rem;
+    color: white;
+}
+
+.slideshow-item-text h5{
+    font-size: 5rem;
+    font-family: 'raleway', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 2.5rem;
+}
+
+.slideshow-item-text p{
+    font-size: 1.6rem;
+    font-family: 'Roboto', sans-serif;
+    letter-spacing: 1px;
+    font-weight: 300;
+}
+
+@keyframes cycleimages {
+    25%{ 
+        opacity: 1; 
+    }
+    40%{ 
+        opacity: 0; 
+    }
+}
+
+@keyframes zoom {
+    100%{
+        transform: scale(1.3);
+    }
+}
