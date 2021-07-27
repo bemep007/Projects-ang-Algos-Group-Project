@@ -109,3 +109,12 @@ class Item(models.Model):
     updated_at = models.DateField(auto_now=True)
 
     objects = ItemManager()
+
+# Bid Class - Item can have many bids but bid can be placed only on one item
+# class Bid(models.Model):    
+#     item_bid = models.IntegerField(max_length=8)
+#     item_bid_on = models.ForeignKey(Item, related_name="has_a_bid", on_delete=models.CASCADE)
+#     bidder = models.ForeignKey(User, related_name="has_bidded_onthis_item", on_delete=models.CASCADE)
+#     created_at = models.DateField(auto_now_add=True)
+#     updated_at = models.DateField(auto_now=True)
+
