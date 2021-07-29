@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>My Account</title>
+</head>
+
+<body class="account-img">
+
+    <div class='header'>
+        <h1>My Account</h1>
+        <div class="nav-bar">
+
+            <a class="b-menu" href="/dashboard">Go Back</a>
+            <a class="b-menu" href="/logout">Log Out</a>
+        </div>
+    </div>
+
+    <div class='main-container'>
+
+            <div class='left_half'>
+
+                <img class="image-avatar" src="../static/img/no_avatar.png" alt="no_avatar">
+                <div class="form-group">
+                    <label for="formFile" class="form-label mt-4">Upload your picture</label>
+                    <input class="form-control" type="file" id="formFile">
+                </div>
+                {% if messages %}
+                <ul class="error-messages">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <form class="form1" action="/my_account/{{user.id}}/update" method="POST">
+                    {% csrf_token %}
+                    <div class="acc-info">
+                        <label>First Name: </label>
+                        <input class="un2" type="first_name" name="first_name" value="{{user.first_name}}">
+                    </div>
+                    <div class="acc-info">
+                        <label>Last Name: </label>
+                        <input class="un2" type="last_name" name="last_name" value="{{user.last_name}}">
+                    </div>
+                    <div class="acc-info">
+                        <label>Email: </label>
+                        <input class="un2" type="email" name="email" value='{{user.email}}'>
+                    </div>
+                    <button class="submit" >Update</button>
+            </div>
+            <div class='right_half'>
+                <h1>My messages:</h1>
+                <ul class="account_card">
+                    <!-- {% for each_message in user.asked_messages.all %} -->
+                    <!-- <h3>{{each_message.title}} {{each_message.messages_text}} on {{each_message.created_at}}</h3>
+                    {% endfor %} -->
+                </ul>
+                <h1>My Items:</h1>
+                <ul class="account_card">
+                    {% for item in user.has_created_item.all %}
+
+                    {% if item.sold == True %}
+                    <h3>{{item.product_name}} - Status: SOLD!</h3>
+                    {% elif item.sold == False %}
+                    <h3>{{item.product_name}} - Status: Available</h3>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+    </div>
+</body>
+
+</html>
